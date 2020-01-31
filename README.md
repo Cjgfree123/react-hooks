@@ -30,6 +30,8 @@ let [state, setState] = useState(initialState);
 
 原理:
 
+（一）见1.useState.js
+
 ```
 /**
  * 实现useState
@@ -43,6 +45,14 @@ function useState(initialState){
         render();
     };
     return [memoizedState, setState];
+}
+```
+
+（二）见3.useState.js
+
+```
+function useState(initialState){
+    return useReducer((oldState, newState) => newState , initialState);
 }
 ```
 
