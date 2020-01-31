@@ -21,7 +21,7 @@ function useState(initialState){
  */
 function useEffect(cb, dependencies){
     if(!dependencies){
-        index++; // useState, useEffect共用一套 lastDependencies
+        index++; // ?????
         return cb();
     };
 

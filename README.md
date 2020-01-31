@@ -98,6 +98,9 @@ function useReducer(reducer, initialArg, init){
 }
 ```
 
+#### useEffect
+
+见5.effect.js
 
 ## 收获
 
