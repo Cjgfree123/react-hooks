@@ -51,21 +51,31 @@ function useReducer(reducer, initialArg, init){
  */
 
 
+ /**
+  * 使用useReducer封装useState start
+  */
+function useState(initialState){
+    return useReducer((oldState, newState) => newState, initialState);
+}
+ /**
+  * 使用useReducer封装useState end
+  */
+
+
 /**
  * 1. useState内部是使用useReducer实现的。
  * 2. 比如说改变状态逻辑复杂，或者下一个状态依赖于上一个状态时，使用useReducer。
  */
 function Counter(){
-    // state={num:0}
-    const [state, dispatch] = useReducer(reducer, initialArg, init)
+    /**
+     * useState就是一个hooks
+     * 第一个是当前的状态
+     * 第二个是改变状态的函数
+     */
+    const [num, setNum] = useState(0); // 参数是初始状态
     return (<>
-        <p>{state.num}</p>
-        <button onClick={() => dispatch({
-            type: INCREMENT
-        })}>+</button>
-        <button onClick={() => dispatch({
-            type: DECREMENT
-        })}>-</button>
+        <p>{num}</p>
+        <button onClick={() => setNum(num + 1)}>+</button>
     </>)
 };
 
