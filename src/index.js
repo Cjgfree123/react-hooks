@@ -54,8 +54,22 @@ function useReducer(reducer, initialArg, init){
  /**
   * 使用useReducer封装useState start
   */
+
+// 一、基础写法 
+// function r1(state, action){
+//     console.log(state, action);
+//     let oldState = state;
+//     let newState = action;
+//     return newState;
+// }
+
+// function useState(initialState){
+//     return useReducer(r1, initialState);
+// }
+
+// 二、简写
 function useState(initialState){
-    return useReducer((oldState, newState) => newState, initialState);
+    return useReducer((oldState, newState) => newState , initialState);
 }
  /**
   * 使用useReducer封装useState end
