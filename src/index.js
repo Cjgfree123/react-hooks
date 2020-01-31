@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 
-if(module.hot){
-    module.hot.accept();
-}
+function Counter(){
+    /**
+     * useState就是一个hooks
+     * 第一个是当前的状态
+     * 第二个是改变状态的函数
+     */
+    const [num, setNum] = useState(0); // 参数是初始状态
+    return (<>
+        <p>{num}</p>
+        <button onClick={() => setNum(num + 1)}>+</button>
+    </>)
+};
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Counter />, document.getElementById('root'));
