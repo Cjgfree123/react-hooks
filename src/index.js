@@ -1,30 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 /**
- * hooks中useState不能写在嵌套、判断、循环中, 原因是:
- * 
- * 比如: if(Math.random() > 0.5) const [num, setNum] = useState(0);
- * 假设第一次>0.5, 则会在memoizedStates: ["计数器", 0]
- * 假设第二次<0.5, render函数将index=0,则会在memoizedStates: [1]。 
- * 导致: 则会在memoizedStates长度不一致。
-*/
-
-
- /*
- * 第一轮 memoizedStates: ["计数器", 0]
- * 第二轮 memoizedStates: ["计数器", 1]
+ * 1. 在函数主体中，不能写具有副作用(订阅、定时器、修改dom)的逻辑。
+ * 2. useEffect 给函数组件添加了操作副作用的能力。
+ * 3. 类组件 didmount didupdate willunmount
  */
-let memoizedStates = [];
-let index = 0;
-function useState(initialState){
-    memoizedStates[index] = memoizedStates[index] || initialState;
-    let currentIndex = index;
-    function setState(newState){
-        memoizedStates[currentIndex] = newState;
-        render();
+let lastDependencies; // 假设 [num, name]
+function useEffect(cb, dependencies){
+    if(!dependencies){
+        return cb();
+    }else{
+        // 判断是否需要刷新(1. 第一次渲染需要刷新 2.数组中，每一个索引处，只要存在当前依赖项 !== 上一份依赖项， 就刷新页面
+        let changed = lastDependencies? !dependencies.every((item, index) => item === lastDependencies[index]) : true;
+        // console.log("changed", changed); true
+        // console.log("当前", dependencies); [1]
+        // console.log("上一份依赖项", lastDependencies); [0]
+        if(changed){
+            cb();
+            lastDependencies = dependencies;
+        };
     };
-    return [memoizedStates[index++], setState];
 }
 
 function Counter(){
@@ -35,6 +31,12 @@ function Counter(){
      */
     const [name, setName] = useState("计数器"); // 参数是初始状态
     const [num, setNum] = useState(0); // 参数是初始状态
+
+    // (每刷新一次)每点击一次按钮，就会执行一次
+    useEffect(() => {
+        console.log("num:" , num);
+    }, [num]);
+
     return (<>
         <p>{name} : {num}</p>
         <button onClick={() => setName("计数器" + Date.now())}>换个名称</button>
@@ -42,9 +44,8 @@ function Counter(){
     </>)
 };
 
+
 function render() {
-    // 防止每次setState时, index++.导致取不到老的state.
-    index = 0;
     ReactDOM.render(<Counter />, document.getElementById('root'));
 };
 render();
