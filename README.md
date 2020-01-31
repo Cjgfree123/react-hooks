@@ -22,6 +22,14 @@ useState返回值：当前的状态（state value）和一个可以更新状态�
 
 #### useState
 
+使用:
+
+```
+let [state, setState] = useState(initialState);
+```
+
+原理:
+
 ```
 /**
  * 实现useState
@@ -35,5 +43,39 @@ function useState(initialState){
         render();
     };
     return [memoizedState, setState];
+}
+```
+
+#### useReducer
+
+reducer跟redux里边的reducer是一致的。
+
+使用:
+
+```
+useReducer(reducer, initialArgs, init);
+```
+
+原理:
+
+```
+let memoizedState;
+function useReducer(reducer, initialArg, init){
+    let initialState = void 0;
+    if(typeof init !== "undefined"){
+        initialState = init(initialArg);
+    }else{
+        initialState = initialArg;
+    };
+    
+    memoizedState = memoizedState || initialState;
+
+    function dispatch(action){
+       // 注意:  reducer(memoizedState, action)   
+       memoizedState = reducer(memoizedState, action);
+       render();
+    };
+
+    return [memoizedState, dispatch];
 }
 ```
