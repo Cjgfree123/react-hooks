@@ -1,14 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// 指向链表的头节点(指针)
+// 指向链表的头节点
 let firstWorkInProcessHook = { memoizedState: null, next: null };
 
-// 指向链表的当前节点(指针)
+// 指向链表的当前节点
 let workInProgressHook = firstWorkInProcessHook;
 
 function useState(initialState){
-    // 当下节点
     let currentHook = workInProgressHook.next?  
         workInProgressHook.next : 
         { memoizedState: initialState, next: null };

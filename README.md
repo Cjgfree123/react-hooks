@@ -64,7 +64,13 @@ function useState(initialState){
 
 解决了3.useState.js问题，只能管理单个状态。
 
+(四) 见6.useState(链表).js
+
+使用链表数据结构，实现了useState.(源码也是采用链表实现的)
+
 #### useReducer
+
+见2.useReducer.js
 
 reducer跟redux里边的reducer是一致的。
 
