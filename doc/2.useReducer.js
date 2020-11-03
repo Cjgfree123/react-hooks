@@ -36,7 +36,6 @@ function useReducer(reducer, initialArg, init){
     };
     
     memoizedState = memoizedState || initialState;
-
     function dispatch(action){
        // 注意:  memoizedState = reducer(memoizedState, action); 而非initialState   
        memoizedState = reducer(memoizedState, action);
@@ -54,6 +53,13 @@ function useReducer(reducer, initialArg, init){
 /**
  * 1. useState内部是使用useReducer实现的。
  * 2. 比如说改变状态逻辑复杂，或者下一个状态依赖于上一个状态时，使用useReducer。
+ * 
+ * 使用:
+ * useReducer(reducer函数, 初始state, 初始化state的函数), 返回值是计算后状态、dispatch监听函数
+ * 
+ * 1.如果有init函数，则init(initialArg)计算出初始state; 否则，直接将initialArg作为初始state.
+ * 2.内部定义dispatch函数, 由reducer(memoizedState, action)计算出新的state, 并手动触发更新。
+ * 3.返回计算后的state, 和dispatch函数。
  */
 function Counter(){
     // state={num:0}
